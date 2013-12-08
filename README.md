@@ -4,7 +4,7 @@ Provides Bar and Donut charts with consitent tooltip for Rails applications.
 
 ## Supports Rails 3.1+
 
-![Bar tip](https://github.com/gouravtiwari/sleek_charts/raw/master/docs/bar-tip.png)![Donut tip](https://github.com/gouravtiwari/sleek_charts/raw/master/docs/donut-tip.png)
+![Bar tip](https://github.com/gouravtiwari/sleek_charts/raw/master/example/bar-tip.png)![Donut tip](https://github.com/gouravtiwari/sleek_charts/raw/master/example/donut-tip.png)
 
 ## Installation
 
