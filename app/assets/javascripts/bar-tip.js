@@ -6,8 +6,8 @@
 //              e.g. [{'label': 'weather-day', 'value': 35.1}, {'label': 'weather-night', 'value': 30.2}]
 // width:       width of svg element
 // height:      height of svg element
-// margin:      margin of svg element and accepts in a map
-//              {top: 10, right: 20, bottom: 20, left:10}
+// margin:      margin of svg element and accepts in a map, e.g.
+//              {top: 40, right: 20, bottom: 120, left: 40}
 // flexRight:   set it to false, when you are ok to display wider column, when there are <5-6 columns, default is true
 // labelAngle:  default is 0
 // xDomain:     x-axis domain, default is 'label'
@@ -31,12 +31,12 @@ function barTip(options){
                     {'label': 'weather-evening', 'value': 32.1}, {'label': 'weather-night', 'value': 30.2}],
         width:      600,
         height:     400,
-        margin:     {top: 10, right: 20, bottom: 20, left:10},
+        margin:     {top: 40, right: 20, bottom: 120, left: 40},
         flexRight:  true,
-        labelAngle: -30,
+        labelAngle: -60,
         xDomain:    'label',
         yDomain:    'value',
-        yAxisText:  '',
+        yAxisText:  'Temperature',
         tipLabel:   '',
         tipValue:   'value',
         tipText:    ''
@@ -44,16 +44,13 @@ function barTip(options){
 
     var config = (options) ? mergeConfigOptions(defaults,options) : defaults;
 
-    var data  = config.data;
-
     // Just to make sure the chart doesn't look clutter, when there are < 5-6 columns
     if(config.flexRight){
-        config.margin['right'] = d3.max([20, (config.width - data.length * 50)]);
+        config.margin['right'] = d3.max([20, (config.width - config.data.length * 50)]);
     }
         
-    var margin = config.margin,
-        width = config.width - margin.left - margin.right,
-        height = config.height - margin.top - margin.bottom;
+    var width = config.width - config.margin.left - config.margin.right,
+        height = config.height - config.margin.top - config.margin.bottom;
 
     var x = d3.scale.ordinal()
         .rangeRoundBands([0, width], .1);
@@ -73,7 +70,7 @@ function barTip(options){
         .attr("width", config.width)
         .attr("height", config.height)
       .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        .attr("transform", "translate(" + config.margin.left + "," + config.margin.top + ")");
 
     var tip = d3.tip()
       .attr('class', 'd3-tip')
@@ -83,11 +80,11 @@ function barTip(options){
 
         return "<strong>" + config.tipText + label + "</strong> <span style='color:red'>" + d[config.tipValue] + "</span>";
       });
-    console.log(svg);
+    
     svg.call(tip);
 
-    x.domain(data.map(function(d) { return d[config.xDomain]; }));
-    y.domain([0, d3.max(data, function(d) { return d[config.yDomain]; })]);
+    x.domain(config.data.map(function(d) { return d[config.xDomain]; }));
+    y.domain([0, d3.max(config.data, function(d) { return d[config.yDomain]; })]);
 
     svg.append("g")
         .attr("class", "x axis")
@@ -113,7 +110,7 @@ function barTip(options){
         .text(config.yAxisText);
 
     svg.selectAll(".bar")
-        .data(data)
+        .data(config.data)
       .enter().append("rect")
         .attr("class", "bar")
         .attr("x", function(d) { return x(d[config.xDomain]); })
