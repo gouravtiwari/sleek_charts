@@ -1,6 +1,8 @@
 # SleekCharts
+[![Gem Version](https://badge.fury.io/rb/sleek_charts.png)](http://badge.fury.io/rb/sleek_charts) [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/gouravtiwari/sleek_charts/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
 Provides Bar and Donut charts with consitent tooltip for Rails applications.
+This gem uses [d3](http://d3js.org) and [d3-tip](https://github.com/Caged/d3-tip) libraries.
 
 ## Supports Rails 3.1+
 
@@ -57,6 +59,4 @@ or add donut chart to any element, e.g.
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
 
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/gouravtiwari/sleek_charts/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
