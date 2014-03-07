@@ -17,6 +17,7 @@
 // tipValue:    tipValue, for each bar, default is 'value'
 // tipText:     tipText which you want to display with 'label' and 'value', default is ''
 // totalLabel:  totalLabel to add a label for sum e.g. ' Views'
+// legend:     default set to true to show legends
 
 function mergeConfigOptions(defaults,options){
     var mergedConfig = {};
@@ -41,7 +42,8 @@ function donutTip(options){
         tipLabel:       '',
         tipValue:       'value',
         tipText:        '',
-        totalLabel:     ''
+        totalLabel:     '',
+        legend:         true
     };
 
     var config = (options) ? mergeConfigOptions(defaults,options) : defaults;
@@ -132,30 +134,31 @@ function donutTip(options){
             return config.color(i);
         }) //set the color for each slice to be chosen from the color function defined above
         .attr("d", arc); //this creates the actual SVG path using the associated data (pie) with the arc drawing function
-    
-    var legend = d3.select(config.selector).append("svg")
-        .attr("class", "legend")
-        .attr("width", config.outerRadius)
-        .attr("height", config.outerRadius * 2)
-        .selectAll("g")
-        .data(data)
-        .enter().append("g")
-        .attr("transform", function (d, i) {
-        return "translate(0," + i * 20 + ")";
-    });
-    
-    legend.append("rect")
-        .attr("width", 18)
-        .attr("height", 18)
-        .style("fill", function (d, i) {
-        return config.color(i);
-    });
-    
-    legend.append("text")
-        .attr("x", 24)
-        .attr("y", 9)
-        .attr("dy", ".35em")
-        .text(function (d) {
-            return d[config.xDomain];
+    if(config.legend){
+        var legend = d3.select(config.selector).append("svg")
+            .attr("class", "legend")
+            .attr("width", config.outerRadius)
+            .attr("height", config.outerRadius * 2)
+            .selectAll("g")
+            .data(data)
+            .enter().append("g")
+            .attr("transform", function (d, i) {
+            return "translate(0," + i * 20 + ")";
         });
+        
+        legend.append("rect")
+            .attr("width", 18)
+            .attr("height", 18)
+            .style("fill", function (d, i) {
+            return config.color(i);
+        });
+        
+        legend.append("text")
+            .attr("x", 24)
+            .attr("y", 9)
+            .attr("dy", ".35em")
+            .text(function (d) {
+                return d[config.xDomain];
+        });
+    }
 }
